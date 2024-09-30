@@ -5,3 +5,28 @@
 .leaflet-popup-content-wrapper {
     width: 100%;
 }
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    20% {
+        transform: translateY(-20px);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+
+    80% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.bouncing-marker {
+    animation: bounce 0.9s ease infinite;
+}

@@ -1,5 +1,12 @@
-// Initialize the map
-let map = L.map("map").setView([20.5937, 78.9629], 5);
+let map = L.map("map", {
+  zoomControl: false,
+}).setView([20.5937, 78.9629], 5);
+
+L.control
+  .zoom({
+    position: "bottomright",
+  })
+  .addTo(map);
 
 const tileLayers = {};
 const MAP_PROVIDERS = {
@@ -28,25 +35,6 @@ const tiles = [
     checked: false,
     url: "//mt.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
   },
-  {
-    attribution:
-      '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    name: MAP_PROVIDERS.osm,
-    checked: false,
-    url: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  },
-  {
-    attribution: "&copy; Yandex",
-    name: MAP_PROVIDERS.yandex.satellite,
-    checked: false,
-    url: "//sat04.maps.yandex.net/tiles?l=sat&v=3.456.0&x={x}&y={y}&z={z}",
-  },
-  {
-    attribution: "&copy; Yandex",
-    name: MAP_PROVIDERS.yandex.roadmap,
-    checked: false,
-    url: "https://core-renderer-tiles.maps.yandex.net/tiles?l=map&v=21.06.18-0-b210520094930&x={x}&y={y}&z={z}&scale=1&lang=ru-RU",
-  },
 ];
 
 tiles.forEach((tile) => {
@@ -60,14 +48,14 @@ tileLayers[MAP_PROVIDERS.google.satellite].addTo(map);
 
 const layerControl = L.control.layers(tileLayers).addTo(map);
 
-let customIcon = L.icon({
-  iconUrl: "./assests/marker-1.svg",
+const customIcon = L.divIcon({
+  className: "custom-div-icon",
+  html: "<div class='bouncing-marker'><img src='./assests/marker-3.svg' style='width: 38px; height: 38px;'/></div>", // Wrap your icon in a div
   iconSize: [38, 38],
   iconAnchor: [19, 38],
   popupAnchor: [1, -34],
 });
 
-// Locations
 let locations = [
   {
     lat: 18.5619466,
@@ -429,15 +417,42 @@ let locations = [
   },
 ];
 
+const popupDiv = document.getElementById("sticky-popup");
+
+function showStickyPopup(content) {
+  popupDiv.innerHTML = content;
+  popupDiv.classList.remove("hidden");
+}
+
+let markers = [];
+
 locations.forEach((location) => {
   let marker = L.marker([location.lat, location.lng], {
     icon: customIcon,
   }).addTo(map);
 
-  // Create a directions button that opens Google Maps
-  const directionsButton = `<a href="https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}" target="_blank" style="display: inline-block; margin-top: 10px; padding: 5px 10px; background-color: #4285F4; color: white; text-decoration: none; border-radius: 5px;">Get Directions</a>`;
+  const directionsButton = `<a href="https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}" target="_blank" class="directions-button">Get Directions</a>`;
 
-  marker.bindPopup(
-    `<p style="font-weight: bold;font-size: 14px"> ${location.name}</p><br>${location.address}<br>${directionsButton}`
-  );
+  const popupContent = `
+      <p style="font-weight: bold; font-size: 20spx">${location.name}</p>
+      <p>${location.address}</p>
+      ${directionsButton}
+    `;
+
+  marker.on("click", () => {
+    document
+      .querySelectorAll(".bouncing-marker")
+      .forEach((el) => el.classList.remove("bouncing-marker"));
+
+    marker.getElement().querySelector("div").classList.add("bouncing-marker");
+    showStickyPopup(popupContent);
+  });
+  markers.push({ marker, popupContent });
 });
+
+const firstMarker = markers[0].marker;
+document
+  .querySelectorAll(".bouncing-marker")
+  .forEach((el) => el.classList.remove("bouncing-marker"));
+firstMarker.getElement().querySelector("div").classList.add("bouncing-marker");
+showStickyPopup(markers[0].popupContent);

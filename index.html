@@ -1,19 +1,62 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="app.css">    
+
+    <!-- External styles -->
+    <link rel="stylesheet" href="app.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-bouncemarker/1.0.0/bouncemarker.js"></script>
+    <!-- Leaflet Styles -->
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        /* Sticky popup styling */
+        #sticky-popup {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 20%;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        #sticky-popup.hidden {
+            display: none;
+        }
+
+        .directions-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
 
 </head>
 
 <body>
-<div id="map"></div>
-        <script src="app.js"></script>
+    <!-- Map Container -->
+    <div id="map"></div>
 
+    <!-- Sticky Popup -->
+    <div id="sticky-popup" class="hidden"></div>
+    <!--  custom JS -->
+    <script src="app.js"></script>
 </body>
-</html> 
+
+</html>
