@@ -1,5 +1,10 @@
 let map = L.map("map", {
   zoomControl: false,
+  maxBounds: [
+    [6.4627, 68.1115], // Southwest corner
+    [37.4026, 97.3952], // Northeast corner
+  ],
+  maxBoundsViscosity: 1.0, // Prevents the user from panning outside the bounds
 }).setView([20.5937, 78.9629], 5);
 
 L.control
