@@ -51,7 +51,13 @@ tiles.forEach((tile) => {
 
 tileLayers[MAP_PROVIDERS.google.satellite].addTo(map);
 
-const layerControl = L.control.layers(tileLayers).addTo(map);
+const layersControl = L.control.layers(
+  tileLayers,
+  {},
+  { position: "bottomleft" }
+);
+
+layersControl.addTo(map);
 
 const customIcon = L.divIcon({
   className: "custom-div-icon",

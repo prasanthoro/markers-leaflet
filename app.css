@@ -30,3 +30,6 @@
 .bouncing-marker {
     animation: bounce 0.9s ease infinite;
 }
+.leaflet-control-attribution {
+    display: none;
+}
