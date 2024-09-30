@@ -445,8 +445,8 @@ locations.forEach((location) => {
   const directionsButton = `<a href="https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}" target="_blank" class="directions-button">Get Directions</a>`;
 
   const popupContent = `
-      <p style="font-weight: bold; font-size: 20spx">${location.name}</p>
-      <p>${location.address}</p>
+      <p style="font-weight: bold; font-size: 18px;color:#1A74AF">${location.name}</p>
+      <p style="font-size: 12px;">${location.address}</p>
       ${directionsButton}
     `;
 
